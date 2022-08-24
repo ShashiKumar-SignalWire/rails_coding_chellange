@@ -24,7 +24,7 @@ class TicketsController < ApplicationController
                     response[:message] ="Ticket created"
                     if @tags.length > 0
                         puts @tags
-                        uri = URI('https://jsonplaceholder.typicode.com/posts')
+                        uri = URI('https://webhook.site/0618378d-b6ea-4d4c-a892-0140153dd8b1')
                         res = Net::HTTP.post_form(uri, 'tag_name' => @tags[0],'count' => @tags[1])
                         puts res.body
                     end
