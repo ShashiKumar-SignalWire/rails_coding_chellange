@@ -9,15 +9,17 @@ class TicketsController < ApplicationController
         elsif(params[:title].nil? || params[:title].empty?)
             response[:success] = false 
             response[:message] = "Please provide title param"
-        elsif (params[:tags].nil? || params[:tags].length > 5 )
+        elsif (!params[:tags].nil? && params[:tags].length > 5 )
             response[:success] = false 
             response[:message] = "We accept upto 5 tags in a request"
         else
             @ticket = Ticket.new(:user_id => params[:user_id], :title => params[:title])
             if @ticket.save
                 begin
-                    params[:tags].each do |c_tag|
-                        @ticket.tag.create(:tag=> c_tag)
+                    if !params[:tags].nil?
+                        params[:tags].each do |c_tag|
+                            @ticket.tag.create(:tag=> c_tag)
+                        end
                     end
                     @tags =Tag.all.group(:tag).order("1 desc").count.first
                     response[:success] = true
